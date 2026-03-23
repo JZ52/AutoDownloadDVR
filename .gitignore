@@ -1,0 +1,14 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+.gitignore
+pyvenv.cfg
+Lib
+Scripts
+cheack.py
+status.db
+stores.json
+ready_folder
+temp_folder
+.env
+*.db
+config.ini
+settings.py
