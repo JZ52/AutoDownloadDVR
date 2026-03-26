@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_NAME = "archive_state.db"
@@ -55,6 +55,15 @@ def check_failed_task(date_id):
 
             return message
         return None
+
+
+#Deleta data 25 days early
+def delete_old_task(retention_days):
+    threshold_date = (datetime.now() - timedelta(days=retention_days)).strftime("%Y-%m-%d")
+
+    with sqlite3.connect(DB_NAME) as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM sync_log WHERE date_id < ?",(threshold_date,))
 
 
 def init_db():

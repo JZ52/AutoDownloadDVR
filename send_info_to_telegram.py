@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from db import check_failed_task
 import requests
+import time
 
 load_dotenv('.env')
 
