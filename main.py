@@ -1,21 +1,13 @@
 import os
-import time
 import json
-import configparser
-import shlex
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
-from send_info_to_telegram import send_info
-from settings import load_config
+from db import init_db
 
-
-# ==========================================
-# --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ XML ---
-# ==========================================
 
 def main():
     print("=== Инициализация системы ===")
-    init_db()
+
 
     if not os.path.exists(STORES_FILE):
         print(f"Файл {STORES_FILE} не найден. Работа остановлена.")
@@ -34,7 +26,6 @@ def main():
         for store in stores:
             if not store.get('enabled', True): continue
 
-            # Индивидуальное расписание с фолбэком на стандартное
             st_time = store.get("time_start", "09:00:00")
             end_time = store.get("time_end", "21:00:00")
 
@@ -56,4 +47,5 @@ def main():
 
 
 if __name__ == "__main__":
+    init_db()
     main()
