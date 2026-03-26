@@ -11,3 +11,4 @@ temp_folder
 *.db
 config.ini
 settings.py
+__pycache__
