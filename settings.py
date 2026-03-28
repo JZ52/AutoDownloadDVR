@@ -14,6 +14,8 @@ def load_config():
         "MAX_PARALLEL_THREADS": 10,
         "LOOKBACK_DAYS": 7,
         "GAP_THRESHOLD_SEC": 30,
+        "RETRY_DELAY": 5,
+        "MAX_RETRIES": 3,
         "FF_DEFAULT": ["-y", "-f", "concat", "-safe", "0", "-c:v", "copy", "-c:a", "copy"],
         "FF_FALLBACK": ["-y", "-f", "concat", "-safe", "0", "-c:v", "copy", "-an"]
     }
@@ -33,6 +35,8 @@ def load_config():
             settings["MAX_PARALLEL_THREADS"] = config.getint('LOGIC', 'MAX_PARALLEL_THREADS', fallback=settings["MAX_PARALLEL_THREADS"])
             settings["LOOKBACK_DAYS"] = config.getint('LOGIC', 'LOOKBACK_DAYS', fallback=settings["LOOKBACK_DAYS"])
             settings["GAP_THRESHOLD_SEC"] = config.getint('LOGIC', 'GAP_THRESHOLD_SEC', fallback=settings["GAP_THRESHOLD_SEC"])
+            settings["RETRY_DELAY"] = config.getint('LOGIC', 'RETRY_DELAY', fallback=settings["RETRY_DELAY"])
+            settings["MAX_RETRIES"] = config.getint('LOGIC', 'MAX_RETRIES', fallback=settings["MAX_RETRIES"])
     return settings
 
 CFG = load_config()
@@ -43,6 +47,8 @@ DB_NAME = CFG["DB_NAME"]
 MAX_PARALLEL_THREADS = CFG["MAX_PARALLEL_THREADS"]
 LOOKBACK_DAYS = CFG["LOOKBACK_DAYS"]
 GAP_THRESHOLD_SEC = CFG["GAP_THRESHOLD_SEC"]
+RETRY_DELAY = CFG["RETRY_DELAY"]
+MAX_RETRIES = CFG["MAX_RETRIES"]
 
 # Создаем папки при импорте этого модуля
 os.makedirs(TEMP_DIR, exist_ok=True)

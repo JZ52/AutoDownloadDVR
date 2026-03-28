@@ -8,6 +8,11 @@ def find_tag(element, tag_name):
         if el.tag.endswith(tag_name): return el
     return None
 
+def find_all_tags(element, tag_name):
+    if element is None:
+        return []
+    return [el for el in element.iter() if el.tag.endswith(tag_name)]
+
 def fetch_all_fragments(session, base_url, cam, start_t, end_t):
     all_fragments = []
     pos = 0
