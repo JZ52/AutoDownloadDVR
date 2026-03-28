@@ -1,29 +1,26 @@
 import os
 import json
+import settings
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
-
-from AutoDownloadDVR.Auto.settings import STORES_FILE
 from db import init_db
-import settings
+import modules
 
 def main():
-
-    STORES_FILE = config.get('PATHS', 'STORES_FILE', fallback='stores.json')
     print("=== Инициализация системы ===")
 
 
-    if not os.path.exists(STORES_FILE):
-        print(f"Файл {STORES_FILE} не найден. Работа остановлена.")
+    if not os.path.exists(settings.STORES_FILE):
+        print(f"Файл {settings.STORES_FILE} не найден. Работа остановлена.")
         return
 
-    with open(STORES_FILE, 'r', encoding='utf-8') as f:
+    with open(settings.STORES_FILE, 'r', encoding='utf-8') as f:
         stores = json.load(f)
 
     tasks = []
     now = datetime.now()
 
-    for i in range(1, LOOKBACK_DAYS + 1):
+    for i in range(1, settings.LOOKBACK_DAYS + 1):
         target_day = now - timedelta(days=i)
         date_id = target_day.strftime("%Y-%m-%d")
 
@@ -39,11 +36,11 @@ def main():
             for cam in store.get('cameras', []):
                 tasks.append((store, cam, date_id, start_t, end_t))
 
-    print(f"Сформирована очередь из {len(tasks)} проверок за последние {LOOKBACK_DAYS} дней.")
+    print(f"Сформирована очередь из {len(tasks)} проверок за последние {settings.LOOKBACK_DAYS} дней.")
     print("Запускаем Worker Pool...\n")
 
-    with ThreadPoolExecutor(max_workers=MAX_PARALLEL_THREADS) as executor:
-        futures = [executor.submit(process_camera, *t) for t in tasks]
+    with ThreadPoolExecutor(max_workers=settings.MAX_PARALLEL_THREADS) as executor:
+        futures = [executor.submit(modules.process_camera, *t) for t in tasks]
         for future in futures:
             print(future.result())
 
