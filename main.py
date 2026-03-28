@@ -3,7 +3,7 @@ import json
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
 from db import init_db
-
+import settings
 
 def main():
     print("=== Инициализация системы ===")
