@@ -2,10 +2,14 @@ import os
 import json
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
+
+from AutoDownloadDVR.Auto.settings import STORES_FILE
 from db import init_db
 import settings
 
 def main():
+
+    STORES_FILE = config.get('PATHS', 'STORES_FILE', fallback='stores.json')
     print("=== Инициализация системы ===")
 
 
